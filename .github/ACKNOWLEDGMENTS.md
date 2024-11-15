@@ -24,6 +24,14 @@ This project depends on the work of the [**Wahapedia**](https://wahapedia.ru) te
 © Vyacheslav Maltsev 2013-2024
 ```
 
+### @gorhill/uBlock
+
+The project uses the [**uBlock Origin**](https://github.com/gorhill/uBlock) project as a reference for the ad-blocking functionality. We would like to thank the team for their work in creating a tool that helps users have a better browsing experience.
+
+```plaintext
+GNU General Public License v3.0
+```
+
 ---
 
 Note: This acknowledgments file is regularly updated to recognize new contributions and support.
