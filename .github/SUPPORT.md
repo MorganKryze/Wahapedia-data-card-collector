@@ -1,6 +1,6 @@
 # Welcome to the support guidelines
 
-If you have any questions, issues, or feedback regarding the [**project**] you're in the right place! Please take a moment to review the guidelines below before proceeding:
+If you have any questions, issues, or feedback regarding the project you're in the right place! Please take a moment to review the guidelines below before proceeding:
 
 ## Before Opening an Issue
 
@@ -16,13 +16,13 @@ If you couldn't find an answer to your question or if you encountered a bug, ple
 
 - **Bug Report**: Use the bug report template if you've encountered an issue with a functionality.
 - **Feature Request**: Use the feature request template if you have a suggestion for a new feature or enhancement.
-- **Question or Support Request**: Use this template if you have a general question about the [**project**] or need assistance with using it.
+- **Question or Support Request**: Use this template if you have a general question about the project or need assistance with using it.
 
 ## Guidelines for Issue Creation
 
 When creating an issue, please provide as much relevant information as possible, including:
 
-- **[**project**] Version**: Specify the version of the [**project**] you're using.
+- **project Version**: Specify the version of the project you're using.
 - **Environment**: Describe your development environment, including operating system, programming language version, etc.
 - **Steps to Reproduce**: If reporting a bug, provide clear steps to reproduce the issue.
 - **Expected Behavior**: Describe what you expected to happen.

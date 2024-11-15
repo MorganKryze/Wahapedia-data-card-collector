@@ -59,7 +59,7 @@ representative at an online or offline event.
 ## Enforcement
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported to the community leaders responsible for enforcement at [fablab@devinci.fr](mailto:fablab@devinci.fr).
+reported to the community leaders responsible for enforcement at [morgan@kodelab.fr](mailto:morgan@kodelab.fr).
 All complaints will be reviewed and investigated promptly and fairly.
 
 All community leaders are obligated to respect the privacy and security of the
