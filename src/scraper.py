@@ -10,7 +10,7 @@ import time
 from utils import Utils
 
 
-class Scraping:
+class WebScraper:
     def __init__(self):
         self.output_dir = "./out/factions/"
         self.source_dir = "./out/source/"
@@ -66,6 +66,18 @@ class Scraping:
         # Remove datasheets.html as it is not a valid name
         names = [name for name in names if name != "datasheets.html"]
         return names
+
+    def init_session(self, width=2560, height=1440, headless=True):
+        driver_options = Options()
+        driver_options.add_argument("--width=" + str(width))
+        driver_options.add_argument("--height=" + str(height))
+        if headless:
+            driver_options.add_argument("--headless")
+
+        self.driver = Browser(options=driver_options)
+        self.ensure_dirs_exist()
+        self.install_ublock()
+        self.remove_cookies()
 
     @Utils.loading(
         "Closing session...",
@@ -156,19 +168,27 @@ class Scraping:
         except Exception:
             return 1
 
-    def init_session(self, width=2560, height=1440, headless=True):
-        driver_options = Options()
-        driver_options.add_argument("--width=" + str(width))
-        driver_options.add_argument("--height=" + str(height))
-        if headless:
-            driver_options.add_argument("--headless")
+    def fetch_card_from_unit(self, faction, unit):
+        # Gets the page
+        self.driver.get(self.factions_url + faction + "/" + unit)
 
-        self.driver = Browser(options=driver_options)
-        self.ensure_dirs_exist()
-        self.install_ublock()
-        self.remove_cookies()
+        # Remove the army list button
+        self.driver.execute_script(
+            """
+            document.querySelector("#btnArmyList").remove();
+            """
+        )
 
-    def create_index(self):
+        # Ensure the output directory exists
+        os.makedirs(self.output_dir + faction, exist_ok=True)
+
+        # Isolate the card and take a screenshot
+        data_card = WebDriverWait(self.driver, 1).until(
+            EC.presence_of_element_located((By.XPATH, '//*[@id="wrapper"]/div[4]'))
+        )
+        data_card.screenshot(self.output_dir + faction + "/" + unit + ".png")
+
+    def fetch_indexes(self):
         try:
             self.init_session()
 
@@ -181,6 +201,37 @@ class Scraping:
             Utils.save_dict_to_json(self.factions_dict, self.source_dir + "source")
 
             self.close_session()
+            return 0
         except Exception as e:
             self.close_session()
             print(e)
+            return 1
+
+    def fetch_all_cards(self):
+        cards_to_fetch = Utils.load_dictionary_if_exists(self.source_dir)
+        if cards_to_fetch is None:
+            return 1
+
+        try:
+            self.init_session()
+
+            for faction, units in cards_to_fetch.items():
+                for unit in units:
+                    self.fetch_card_from_unit(faction, unit)
+                    cards_to_fetch[faction].remove(unit)
+
+            self.close_session()
+            return 0
+        except KeyboardInterrupt:
+            print(
+                "\nProcess interrupted by user. The dictionary will be saved to temp.json."
+            )
+            self.close_session()
+            Utils.save_dict_to_json(cards_to_fetch, self.source_dir + "temp")
+            return 1
+        except Exception as e:
+            print("An error occurred. The dictionary will be saved to temp.json.")
+            print(e)
+            self.close_session()
+            Utils.save_dict_to_json(cards_to_fetch, self.source_dir + "temp")
+            return 1

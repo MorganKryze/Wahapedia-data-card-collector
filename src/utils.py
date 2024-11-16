@@ -26,11 +26,6 @@ class Utils:
         return {key: None for key in keys}
 
     @staticmethod
-    def save_dict_to_json(dictionary, path):
-        with open(path + ".json", "w") as file:
-            json.dump(dictionary, file)
-
-    @staticmethod
     def loading(
         loading_message: str = "Loading...",
         success_message: str = "Loading complete.",
@@ -126,3 +121,41 @@ class Utils:
             spinner.start()
             dummy_job()
             spinner.stop()
+
+    @loading(
+        "Saving dictionary to JSON...",
+        "Dictionary saved successfully.",
+        "Dictionary could not be saved.",
+    )
+    @staticmethod
+    def save_dict_to_json(dictionary, path):
+        try:
+            with open(path + ".json", "w") as file:
+                json.dump(dictionary, file)
+            return 0
+        except Exception:
+            return 1
+
+    @staticmethod
+    def load_json_dict(path):
+        with open(path, "r") as file:
+            data = json.load(file)
+        if os.path.basename(path) == "temp.json":
+            os.remove(path)
+        return data
+
+    @staticmethod
+    def remove_file(path):
+        os.remove(path)
+        
+    @staticmethod
+    def load_dictionary_if_exists(directory_path):
+        temp_path = os.path.join(directory_path, "temp.json")
+        if os.path.isfile(temp_path):
+            return Utils.load_json_dict(temp_path)
+        
+        source_path = os.path.join(directory_path, "source.json")
+        if os.path.isfile(source_path):
+            return Utils.load_json_dict(source_path)
+        
+        return None
