@@ -10,7 +10,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 try:
     options = ["Update or fetch the indexes.", "Fetch all data cards.", "Exit the app."]
     selected_option = select_menu.create_select_menu(
-        options, "Hello! Please select an option."
+        options, "Hello! Please select an option and press Enter:"
     )
 
     tool = WebScraper()
