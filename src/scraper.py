@@ -203,9 +203,7 @@ class WebScraper:
             self.close_session()
             return 0
         except KeyboardInterrupt:
-            print(
-                "\nProcess interrupted by user."
-            )
+            print("\nProcess interrupted by user.")
             self.close_session()
             return 1
         except Exception as e:

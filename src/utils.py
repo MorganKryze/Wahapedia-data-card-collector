@@ -147,15 +147,15 @@ class Utils:
     @staticmethod
     def remove_file(path):
         os.remove(path)
-        
+
     @staticmethod
     def load_dictionary_if_exists(directory_path):
         temp_path = os.path.join(directory_path, "temp.json")
         if os.path.isfile(temp_path):
             return Utils.load_json_dict(temp_path)
-        
+
         source_path = os.path.join(directory_path, "source.json")
         if os.path.isfile(source_path):
             return Utils.load_json_dict(source_path)
-        
+
         return None
