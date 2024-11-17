@@ -18,7 +18,7 @@ class Utils:
         os.system("clear")
 
     @staticmethod
-    def get_current_time():
+    def get_current_time() -> str:
         return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     @staticmethod
@@ -128,7 +128,17 @@ class Utils:
         "Dictionary could not be saved.",
     )
     @staticmethod
-    def save_dict_to_json(dictionary, path):
+    def save_dict_to_json(dictionary: dict, path: str) -> int:
+        """
+        Saves a dictionary to a JSON file.
+
+        Args:
+            dictionary (dict): The dictionary to save.
+            path (str): The path to save the dictionary to.
+
+        Returns:
+            int: 0 if successful, 1 otherwise.
+        """
         try:
             with open(path + ".json", "w") as file:
                 json.dump(dictionary, file)
@@ -137,7 +147,16 @@ class Utils:
             return 1
 
     @staticmethod
-    def load_json_dict(path):
+    def load_json_dict(path: str) -> dict:
+        """
+        Loads a JSON file as a dictionary.
+
+        Args:
+            path (str): The path to the JSON file.
+
+        Returns:
+        dict: The dictionary loaded from the JSON file.
+        """
         with open(path, "r") as file:
             data = json.load(file)
         if os.path.basename(path) == "temp.json":
@@ -145,11 +164,26 @@ class Utils:
         return data
 
     @staticmethod
-    def remove_file(path):
+    def remove_file(path: str) -> None:
+        """
+        Removes a file from the filesystem.
+
+        Args:
+            path (str): The path to the file to remove.
+        """
         os.remove(path)
 
     @staticmethod
-    def load_dictionary_if_exists(directory_path):
+    def load_dictionary_if_exists(directory_path: str) -> dict:
+        """
+        Loads a dictionary from a directory if it exists.
+
+        Args:
+            directory_path (str): The path to the directory.
+
+        Returns:
+            dict: The dictionary loaded from the directory if it exists, None otherwise.
+        """
         temp_path = os.path.join(directory_path, "temp.json")
         if os.path.isfile(temp_path):
             return Utils.load_json_dict(temp_path)
