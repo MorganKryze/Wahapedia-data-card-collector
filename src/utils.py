@@ -154,7 +154,7 @@ class Utils:
         if os.path.isfile(temp_path):
             return Utils.load_json_dict(temp_path)
 
-        source_path = os.path.join(directory_path, "source.json")
+        source_path = os.path.join(directory_path, "index.json")
         if os.path.isfile(source_path):
             return Utils.load_json_dict(source_path)
 

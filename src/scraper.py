@@ -198,7 +198,7 @@ class WebScraper:
             for faction_name in self.factions_names:
                 self.fetch_units_names_from_faction(faction_name)
 
-            Utils.save_dict_to_json(self.factions_dict, self.source_dir + "source")
+            Utils.save_dict_to_json(self.factions_dict, self.source_dir + "index")
 
             self.close_session()
             return 0
