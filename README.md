@@ -2,9 +2,9 @@
 
 ## Overview
 
-> Add a short description of the project here.
+> A web scrapping tool that allows you to collect data cards from the Wahapedia website.
 
-Add important information about the project here.
+Wahapedia data cards collector is a web scrapping tool that allows you to collect data cards from the [Wahapedia website](https://wahapedia.ru/). The tool is written in Python and uses the [Selenium](https://www.selenium.dev/) library to automate the process of collecting data cards.
 
 ## Getting Started
 
@@ -14,77 +14,75 @@ Add important information about the project here.
   - [Setting up](#setting-up)
     - [Prerequisites](#prerequisites)
     - [Install](#install)
-    - [Usage](#usage)
     - [Build \& Run](#build--run)
-  - [Troubleshooting](#troubleshooting)
-  - [Supported platforms](#supported-platforms)
-  - [Supported languages](#supported-languages)
+    - [Usage](#usage)
   - [Future improvements](#future-improvements)
   - [Contributing](#contributing)
   - [License](#license)
 
 ### Documentation
 
-Provide where to find to the documentation of the project. (ex: [Structure of the project](./docs/STRUCTURE.md))
-
-It may include a link to an important [reference](https://example.com).
+...
 
 ### Setting up
 
 #### Prerequisites
 
-- Define tools and libraries that are required to run the project with the version number.
-- If available, provide a link to the installation guide.
-- You may also add concepts or knowledge that are required to understand the project.
+- Python 3.9 or higher
+- Git
 
 #### Install
 
-Details here explicit instructions to install the project.
+Clone the repository:
 
-Here are the info blocks available for github markdown:
+```bash
+git clone https://github.com/MorganKryze/Wahapedia-data-cards-collector.git
+```
 
-> [!NOTE]
-> Do not hesitate to add a note if necessary.
+You may move to the project directory if you intend to run the tool:
 
-> [!TIP]
-> Do not hesitate to add a tip if necessary.
-
-> [!WARNING]
-> Do not hesitate to add a warning if necessary.
-
-> [!IMPORTANT]
-> Do not hesitate to add an important note if necessary.
-
-> [!CAUTION]
-> Do not hesitate to add a caution if necessary.
-
-#### Usage
-
-Detail here the instructions to use the project.
+```bash
+cd Wahapedia-data-cards-collector
+```
 
 #### Build & Run
 
-Detail here the instructions to build and run the project.
+First we need to create a virtual environment:
 
-### Troubleshooting
+```bash
+python -m venv wahapedia
+```
 
-Detail here the troubleshooting of the project.
+Then we need to activate the virtual environment:
 
-### Supported platforms
+```bash
+source wahapedia/bin/activate
+```
 
-- Precise here the platforms that are supported by the project.
-- If available, provide a link to the installation guide.
-- If in testing, do not hesitate to mention it.
+Then we need to install the dependencies:
 
-### Supported languages
+```bash
+pip install -r requirements.txt
+```
 
-- Precise here the languages that are supported by the project.
-- If necessary, precise if some languages needs to be checked.
+Then we need to run the tool:
+
+```bash
+python src
+```
+
+#### Usage
+
+The tool is only designed to:
+
+- Create or update an index file (index.json) that lists all the factions and cards to fetch.
+- Fetch the data cards from the Wahapedia website.
+
+![demo](./docs/assets/img/demo.gif)
 
 ### Future improvements
 
-- Precise here the future improvements that are planned for the project.
-- ~~Imporvement done can be styled like this.~~
+- Move to an api-based solution.
 
 ### Contributing
 
@@ -93,3 +91,6 @@ If you want to contribute to the project, you can follow the steps described in 
 ### License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details.
+
+> [!WARNING]
+> This project does not aim to appropriate the content of the [Wahapedia website](https://wahapedia.ru/), but to provide a tool to collect public data cards for personal use only. The owner of this repository is not responsible for the use of the data collected by this tool.
