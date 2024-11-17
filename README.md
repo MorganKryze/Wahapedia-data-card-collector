@@ -22,7 +22,18 @@ Wahapedia data cards collector is a web scrapping tool that allows you to collec
 
 ### Documentation
 
-...
+Under the `src` directory, you will find the following files:
+
+- `scraper.py`: Contains the `WebScraper` class that allows you to fetch the data cards from the Wahapedia website.
+- `utils.py`: Contains the `Utils` class that adds functionalities functions to the web scraper.
+- `__main__.py`: Contains the main function that allows you to run the tool using the command `python src`.
+
+The code has been typed and documented inlined, so you can check the code for more information. You can also [open an issue](https://github.com/MorganKryze/Wahapedia-data-cards-collector/issues) regarding any inquiries you may have.
+
+Once you setup the tool locally, an `/out` directory will be created. This directory will contain the following folders:
+
+- `factions`: Contains the data cards fetched from the Wahapedia website.
+- `source`: Contains the `index.json` file that lists all the factions and cards to fetch (and the `temp.json` when a job has not been completed).
 
 ### Setting up
 
@@ -30,6 +41,16 @@ Wahapedia data cards collector is a web scrapping tool that allows you to collec
 
 - Python 3.9 or higher
 - Git
+- Firefox
+
+> [!NOTE]
+> The tool uses Firefox as the default browser to run the web scrapping process. You can change the browser by modifying the `src/scraper.py` file:
+>
+> ```python
+> # src/scraper.py
+> 1 from selenium.webdriver import FirefoxOptions as Options, Firefox as Browser
+> 2 ...
+> ```
 
 #### Install
 
@@ -77,6 +98,9 @@ The tool is only designed to:
 
 - Create or update an index file (index.json) that lists all the factions and cards to fetch.
 - Fetch the data cards from the Wahapedia website.
+
+> [!NOTE]
+> The tool will create a `temp.json` file in the `/out/source` directory if a job has not been completed that will be used to resume the job. You can delete this file if you want to start a new job.
 
 ![demo](./docs/assets/img/demo.gif)
 
