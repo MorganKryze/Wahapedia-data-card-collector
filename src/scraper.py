@@ -187,7 +187,7 @@ class WebScraper:
         try:
             self.driver.get(self.home_url)
 
-            menu = WebDriverWait(self.driver, 3).until(
+            menu = WebDriverWait(self.driver, 5).until(
                 EC.presence_of_element_located(
                     (
                         By.XPATH,
@@ -219,7 +219,7 @@ class WebScraper:
         try:
             self.driver.get(self.factions_url + faction_name)
 
-            button = WebDriverWait(self.driver, 1).until(
+            button = WebDriverWait(self.driver, 5).until(
                 EC.presence_of_element_located((By.XPATH, '//*[@id="btnArmyList"]'))
             )
             actions = ActionChains(self.driver)
@@ -257,7 +257,7 @@ class WebScraper:
 
         os.makedirs(self.output_dir + faction, exist_ok=True)
 
-        data_card = WebDriverWait(self.driver, 1).until(
+        data_card = WebDriverWait(self.driver, 5).until(
             EC.presence_of_element_located((By.XPATH, '//*[@id="wrapper"]/div[4]'))
         )
         data_card.screenshot(self.output_dir + faction + "/" + unit + ".png")
@@ -291,6 +291,65 @@ class WebScraper:
             print(e)
             return 1
 
+    @Utils.loading(
+        "Fetching all cards from faction...",
+        "All cards fetched from faction.",
+        "Failed to fetch all cards from faction.",
+    )
+    def fetch_all_cards_from_faction_logic(self, cards_to_fetch, faction: str) -> int:
+        try:
+            units_queue = cards_to_fetch[faction][:]
+            while units_queue:
+                unit = units_queue.pop(0)
+                self.fetch_card_from_unit(faction, unit)
+                cards_to_fetch[faction].remove(unit)
+            return 0
+        except Exception:
+            return 1
+
+    def fetch_all_cards_from_faction(self, faction: str) -> int:
+        """
+        Fetches all the cards from a faction.
+
+        Args:
+            faction (str): The name of the faction.
+
+        Returns:
+            int: 0 if successful, 1 otherwise.
+        """
+        try:
+            self.init_session()
+            cards_to_fetch = Utils.load_dictionary_if_exists(self.source_dir)
+            if cards_to_fetch is None:
+                print("No dictionary found. Please fetch the indexes first.")
+                return 1
+
+            if faction not in cards_to_fetch.keys():
+                print("The faction does not exist in the dictionary.")
+                return 1
+            cards_to_fetch = {faction: cards_to_fetch[faction]}
+
+            self.fetch_all_cards_from_faction_logic(cards_to_fetch, faction)
+
+            self.close_session()
+            return 0
+        except KeyboardInterrupt:
+            print("\nProcess interrupted by user.")
+            self.close_session()
+            return 1
+        except Exception as e:
+            self.close_session()
+            print(e)
+            return 1
+
+    def fetch_all_cards_logic(self, cards_to_fetch) -> int:
+        try:
+            for faction in cards_to_fetch.keys():
+                self.fetch_all_cards_from_faction_logic(cards_to_fetch, faction)
+            return 0
+        except Exception:
+            return 1
+
     def fetch_all_cards(self) -> int:
         """
         Fetches all the cards from Wahapedia.
@@ -300,15 +359,13 @@ class WebScraper:
         """
         cards_to_fetch = Utils.load_dictionary_if_exists(self.source_dir)
         if cards_to_fetch is None:
+            print("No dictionary found. Please fetch the indexes first.")
             return 1
 
         try:
             self.init_session()
 
-            for faction, units in cards_to_fetch.items():
-                for unit in units:
-                    self.fetch_card_from_unit(faction, unit)
-                    cards_to_fetch[faction].remove(unit)
+            self.fetch_all_cards_logic(cards_to_fetch)
 
             self.close_session()
             return 0

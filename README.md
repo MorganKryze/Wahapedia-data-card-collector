@@ -97,7 +97,8 @@ python src
 The tool is only designed to:
 
 - Create or update an index file (index.json) that lists all the factions and cards to fetch.
-- Fetch the data cards from the Wahapedia website.
+- Fetch the data cards from the Wahapedia website for all factions.
+- Fetch the data cards from the Wahapedia website for a specific faction.
 
 > [!NOTE]
 > The tool will create a `temp.json` file in the `/out/source` directory if a job has not been completed that will be used to resume the job. You can delete this file if you want to start a new job.
