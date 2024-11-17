@@ -93,4 +93,4 @@ If you want to contribute to the project, you can follow the steps described in 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details.
 
 > [!WARNING]
-> This project does not aim to appropriate the content of the [Wahapedia website](https://wahapedia.ru/), but to provide a tool to collect public data cards for personal use only. The owner of this repository is not responsible for the use of the data collected by this tool.
+> This project does not aim to appropriate the content of the [Wahapedia website](https://wahapedia.ru/), but to provide a tool to collect public data cards for personal use only. The owner of this repository will not be held responsible for the use of the data collected by this tool.
