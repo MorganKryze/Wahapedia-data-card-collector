@@ -1,0 +1,4 @@
+[submodule "out/factions"]
+	path = out/factions
+	url = git@github.com:MorganKryze/Wahapedia-data-cards.git
+	branch = main
