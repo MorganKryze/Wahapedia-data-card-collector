@@ -11,7 +11,14 @@ from utils import Utils
 
 
 class WebScraper:
-    def __init__(self):
+    """
+    A class for scraping data from Wahapedia.
+    """
+
+    def __init__(self) -> None:
+        """
+        Initializes the WebScraper class.
+        """
         self.output_dir = "./out/factions/"
         self.source_dir = "./out/source/"
 
@@ -30,7 +37,13 @@ class WebScraper:
         "Output directories exist.",
         "Failed to ensure output directories exist.",
     )
-    def ensure_dirs_exist(self):
+    def ensure_dirs_exist(self) -> int:
+        """
+        Ensures the output directories exist.
+
+        Returns:
+            int: 0 if successful, 1 otherwise.
+        """
         try:
             os.makedirs(self.output_dir, exist_ok=True)
             os.makedirs(self.source_dir, exist_ok=True)
@@ -43,7 +56,13 @@ class WebScraper:
         "uBlock Origin installed.",
         "Failed to install uBlock Origin.",
     )
-    def install_ublock(self):
+    def install_ublock(self) -> int:
+        """
+        Installs uBlock Origin to the browser.
+
+        Returns:
+            int: 0 if successful, 1 otherwise.
+        """
         try:
             ublock_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/addon-1318898-latest.xpi"
             ublock_path = "./docs/assets/extensions/ublock_origin.xpi"
@@ -58,7 +77,16 @@ class WebScraper:
         except Exception:
             return 1
 
-    def get_names_from_html(self, html):
+    def get_names_from_html(self, html) -> list:
+        """
+        Gets the names of the elements from the HTML.
+
+        Args:
+            html (WebElement): The HTML element to get the names from.
+
+        Returns:
+            list: The names of the elements.
+        """
         links = html.find_elements(By.TAG_NAME, "a")
         hrefs = [link.get_attribute("href") for link in links]
         names = [href.split("/")[-1] for href in hrefs]
@@ -67,7 +95,20 @@ class WebScraper:
         names = [name for name in names if name != "datasheets.html"]
         return names
 
-    def init_session(self, width=2560, height=1440, headless=True):
+    def init_session(
+        self, width: int = 2560, height: int = 1440, headless: bool = True
+    ) -> None:
+        """
+        Initializes the session.
+
+        Args:
+            width (int): The width of the browser window.
+            height (int): The height of the browser window.
+            headless (bool): Whether to run the browser in headless mode.
+
+        Returns:
+            None
+        """
         driver_options = Options()
         driver_options.add_argument("--width=" + str(width))
         driver_options.add_argument("--height=" + str(height))
@@ -84,7 +125,13 @@ class WebScraper:
         "Session closed.",
         "Failed to close session.",
     )
-    def close_session(self):
+    def close_session(self) -> int:
+        """
+        Closes the session.
+
+        Returns:
+            int: 0 if successful, 1 otherwise.
+        """
         try:
             self.driver.quit()
             return 0
@@ -96,7 +143,13 @@ class WebScraper:
         "Cookies removed.",
         "Failed to remove cookies.",
     )
-    def remove_cookies(self):
+    def remove_cookies(self) -> int:
+        """
+        Removes the cookies from the browser.
+
+        Returns:
+            int: 0 if successful, 1 otherwise.
+        """
         if not self.check_for_cookies:
             return 0
         self.driver.get(self.home_url)
@@ -124,7 +177,13 @@ class WebScraper:
         "Factions names fetched.",
         "Failed to fetch factions names.",
     )
-    def fetch_factions_names(self):
+    def fetch_factions_names(self) -> int:
+        """
+        Fetches the names of the factions.
+
+        Returns:
+            int: 0 if successful, 1 otherwise.
+        """
         try:
             self.driver.get(self.home_url)
 
@@ -147,7 +206,16 @@ class WebScraper:
         "Units names fetched.",
         "Failed to fetch units names from their faction names.",
     )
-    def fetch_units_names_from_faction(self, faction_name):
+    def fetch_units_names_from_faction(self, faction_name: str) -> int:
+        """
+        Fetches the names of the units from the faction name.
+
+        Args:
+            faction_name (str): The name of the faction.
+
+        Returns:
+            int: 0 if successful, 1 otherwise.
+        """
         try:
             self.driver.get(self.factions_url + faction_name)
 
@@ -168,27 +236,39 @@ class WebScraper:
         except Exception:
             return 1
 
-    def fetch_card_from_unit(self, faction, unit):
-        # Gets the page
+    def fetch_card_from_unit(self, faction: str, unit: str) -> None:
+        """
+        Fetches the card from the unit.
+
+        Args:
+            faction (str): The name of the faction.
+            unit (str): The name of the unit.
+
+        Returns:
+            None
+        """
         self.driver.get(self.factions_url + faction + "/" + unit)
 
-        # Remove the army list button
         self.driver.execute_script(
             """
             document.querySelector("#btnArmyList").remove();
             """
         )
 
-        # Ensure the output directory exists
         os.makedirs(self.output_dir + faction, exist_ok=True)
 
-        # Isolate the card and take a screenshot
         data_card = WebDriverWait(self.driver, 1).until(
             EC.presence_of_element_located((By.XPATH, '//*[@id="wrapper"]/div[4]'))
         )
         data_card.screenshot(self.output_dir + faction + "/" + unit + ".png")
 
-    def fetch_indexes(self):
+    def fetch_indexes(self) -> int:
+        """
+        Fetches the indexes from Wahapedia.
+
+        Returns:
+            int: 0 if successful, 1 otherwise.
+        """
         try:
             self.init_session()
 
@@ -211,7 +291,13 @@ class WebScraper:
             print(e)
             return 1
 
-    def fetch_all_cards(self):
+    def fetch_all_cards(self) -> int:
+        """
+        Fetches all the cards from Wahapedia.
+
+        Returns:
+            int: 0 if successful, 1 otherwise.
+        """
         cards_to_fetch = Utils.load_dictionary_if_exists(self.source_dir)
         if cards_to_fetch is None:
             return 1

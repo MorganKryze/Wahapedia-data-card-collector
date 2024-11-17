@@ -8,6 +8,9 @@ import datetime
 
 
 class Utils:
+    """
+    An utility class for common functions.
+    """
     @staticmethod
     def clear_console() -> None:
         """
